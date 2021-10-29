@@ -38,6 +38,12 @@ public class World {
         System.out.println("system wystartował");
         Direction[] directions = convert(args);
         run(directions);
+        MapDirection mapDirection = MapDirection.EAST;
+        System.out.println(mapDirection);
+        System.out.println(mapDirection.next());
+        System.out.println(mapDirection.previous().next());
+        System.out.println(mapDirection.toUnitVector());
+
         System.out.println("system zakończył działanie");
     }
 }
