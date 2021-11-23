@@ -23,7 +23,7 @@ public class OptionsParser {
         }
     }
 
-    public MoveDirection[] convert(String[] args){
+    public MoveDirection[] parse(String[] args){
         return Arrays.stream(args)
                 .map(this::convertSingle)
                 .filter(Objects::nonNull)

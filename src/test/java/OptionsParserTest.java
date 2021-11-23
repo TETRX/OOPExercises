@@ -20,6 +20,6 @@ public class OptionsParserTest {
         };
 
         OptionsParser optionsParser = new OptionsParser();
-        assertArrayEquals(expectedOutput, optionsParser.convert(testInputs));
+        assertArrayEquals(expectedOutput, optionsParser.parse(testInputs));
     }
 }

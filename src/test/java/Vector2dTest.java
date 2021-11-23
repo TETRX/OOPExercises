@@ -86,4 +86,12 @@ public class Vector2dTest {
         assertEquals(new Vector2d(-2,-3),v1.opposite());
     }
 
+    @Test
+    public void testHashCode(){
+        Vector2d v1 = new Vector2d(2,3);
+        Vector2d v2 = new Vector2d(2,3);
+        Vector2d v3 = new Vector2d(2,4);
+        assertEquals(v1.hashCode(),v2.hashCode());
+        assertNotEquals(v1.hashCode(),v3.hashCode());
+    }
 }

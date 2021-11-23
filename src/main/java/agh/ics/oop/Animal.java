@@ -3,6 +3,7 @@ package agh.ics.oop;
 public class Animal {
     private MapDirection mapDirection;
     private Vector2d location;
+    private IWorldMap map;
 
     public static final int DEFAULT_X=2;
     public static final int DEFAULT_Y=2;
@@ -11,18 +12,27 @@ public class Animal {
     public static final String LOCATION_STRING = "Located: ";
     public static final String POINTING_STRING = " pointing: ";
 
-    public Animal(){
+    public Animal(IWorldMap map){
         this.mapDirection=DEFAULT_ORIENTATION;
         this.location= new Vector2d(Animal.DEFAULT_X,Animal.DEFAULT_Y);
+        this.map = map;
+    }
+
+    Animal(IWorldMap map, Vector2d initialPosition){
+        this(map);
+        this.location = initialPosition;
     }
 
     public String toString(){
-        return LOCATION_STRING+ this.location.toString() + POINTING_STRING + mapDirection;
+
+        return this.mapDirection.shortString();
     }
 
     public boolean isAt(Vector2d position){
         return location.equals(position);
     }
+
+    public Vector2d getLocation(){ return location;}
 
     // These define the square which animals cant leave
     public static final int ENCLOSURE_SOUTHERN_BARRIER=0;
@@ -33,6 +43,7 @@ public class Animal {
     public static final Vector2d ENCLOSURE_UPPER_RIGHT = new Vector2d(ENCLOSURE_EASTERN_BARRIER,ENCLOSURE_NORTHERN_BARRIER);
 
     public void move(MoveDirection direction){
+        Vector2d newLocation=null;
         switch (direction){
             case LEFT:
                 this.mapDirection=this.mapDirection.previous();
@@ -41,14 +52,16 @@ public class Animal {
                 this.mapDirection=this.mapDirection.next();
                 break;
             case FORWARD:
-                this.location = this.location.add(this.mapDirection.toUnitVector());
+                newLocation = this.location.add(this.mapDirection.toUnitVector());
                 break;
             case BACKWARD:
-                this.location = this.location.subtract(this.mapDirection.toUnitVector());
+                newLocation = this.location.subtract(this.mapDirection.toUnitVector());
                 break;
         }
-        // a move beyond the boundaries should have no effect.
-        this.location=this.location.lowerLeft(ENCLOSURE_UPPER_RIGHT);
-        this.location=this.location.upperRight(ENCLOSURE_LOWER_LEFT);
+        if (newLocation!=null){
+            if(map.canMoveTo(newLocation)) {
+                this.location = newLocation;
+            }
+        }
     }
 }

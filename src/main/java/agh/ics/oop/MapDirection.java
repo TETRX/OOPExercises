@@ -11,12 +11,13 @@ public enum MapDirection {
     private static final MapDirection[] clockwiseOrder = new MapDirection[] {NORTH, EAST,SOUTH, WEST};
     private static final Map<MapDirection, Integer> clockwiseOrderInv= new HashMap<>();
     static {
-        clockwiseOrderInv.put(NORTH,0);
-        clockwiseOrderInv.put(EAST,1);
-        clockwiseOrderInv.put(SOUTH,2);
-        clockwiseOrderInv.put(WEST,3);
-
+        for(int i = 0 ; i<clockwiseOrder.length;i++){
+            clockwiseOrderInv.put(clockwiseOrder[i],i );
+        }
     }
+
+
+
     private final String directionName;
     private final Vector2d unitVectorConversion;
 
@@ -27,6 +28,10 @@ public enum MapDirection {
 
     public String toString(){
         return directionName;
+    }
+
+    public String shortString(){
+        return String.valueOf(directionName.charAt(0));
     }
 
     public MapDirection next(){
