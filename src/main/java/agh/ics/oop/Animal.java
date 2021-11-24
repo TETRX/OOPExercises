@@ -1,9 +1,12 @@
 package agh.ics.oop;
 
 public class Animal {
+    public MapDirection getMapDirection() {
+        return mapDirection;
+    }
+
     private MapDirection mapDirection;
     private Vector2d location;
-    private IWorldMap map;
 
     public static final int DEFAULT_X=2;
     public static final int DEFAULT_Y=2;
@@ -12,6 +15,7 @@ public class Animal {
     public static final String LOCATION_STRING = "Located: ";
     public static final String POINTING_STRING = " pointing: ";
 
+    private IWorldMap map;
     public Animal(IWorldMap map){
         this.mapDirection=DEFAULT_ORIENTATION;
         this.location= new Vector2d(Animal.DEFAULT_X,Animal.DEFAULT_Y);
