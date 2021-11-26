@@ -2,15 +2,23 @@ package agh.ics.oop;
 
 import java.util.*;
 
-public class RectangularMap implements IWorldMap{
+public class RectangularMap extends AbstractWorldMap{
+    @Override
+    protected Vector2d getUpperRight() {
+        return upperRight;
+    }
+
+    @Override
+    protected Vector2d getLowerLeft() {
+        return lowerLeft;
+    }
+
     private final Vector2d upperRight, lowerLeft;
-    private final List<Animal> animals;
 
 
     public RectangularMap(int width, int height){
         this.upperRight = new Vector2d(width,height);
         this.lowerLeft = new Vector2d(0,0);
-        animals = new ArrayList<>();
     }
 
     @Override
@@ -29,18 +37,16 @@ public class RectangularMap implements IWorldMap{
     }
 
     @Override
+    protected void setUpPrint() {}
+
+    @Override
     public boolean isOccupied(Vector2d position) {
         return objectAt(position) != null;
     }
 
     @Override
     public Object objectAt(Vector2d position) {
-        for (Animal animal: animals) {
-            if(animal.getLocation().equals(position)){
-                return animal;
-            }
-        }
-        return null;
+        return animalOccupyingSpace(position);
     }
 
     public String toString(){

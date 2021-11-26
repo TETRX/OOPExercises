@@ -1,6 +1,6 @@
 package agh.ics.oop;
 
-public class Animal {
+public class Animal implements IMapElement {
     public MapDirection getMapDirection() {
         return mapDirection;
     }
@@ -22,7 +22,7 @@ public class Animal {
         this.map = map;
     }
 
-    Animal(IWorldMap map, Vector2d initialPosition){
+    public Animal(IWorldMap map, Vector2d initialPosition){
         this(map);
         this.location = initialPosition;
     }
@@ -37,14 +37,6 @@ public class Animal {
     }
 
     public Vector2d getLocation(){ return location;}
-
-    // These define the square which animals cant leave
-    public static final int ENCLOSURE_SOUTHERN_BARRIER=0;
-    public static final int ENCLOSURE_WESTERN_BARRIER=0;
-    public static final int ENCLOSURE_EASTERN_BARRIER=4;
-    public static final int ENCLOSURE_NORTHERN_BARRIER=4;
-    public static final Vector2d ENCLOSURE_LOWER_LEFT = new Vector2d(ENCLOSURE_WESTERN_BARRIER,ENCLOSURE_SOUTHERN_BARRIER);
-    public static final Vector2d ENCLOSURE_UPPER_RIGHT = new Vector2d(ENCLOSURE_EASTERN_BARRIER,ENCLOSURE_NORTHERN_BARRIER);
 
     public void move(MoveDirection direction){
         Vector2d newLocation=null;

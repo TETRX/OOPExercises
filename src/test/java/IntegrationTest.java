@@ -1,6 +1,8 @@
 import agh.ics.oop.*;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -62,9 +64,7 @@ public class IntegrationTest {
         IWorldMap map = new RectangularMap(10, northernBarrier);
         Vector2d[] positions = { new Vector2d(1,startY)};
         MoveDirection[] directions = new MoveDirection[northernBarrier-startY+5];
-        for(int i=0;i<directions.length; i++){
-            directions[i]=MoveDirection.FORWARD;
-        }
+        Arrays.fill(directions, MoveDirection.FORWARD);
 
         SimulationEngine engine = new SimulationEngine(directions, map, positions);
         engine.run();

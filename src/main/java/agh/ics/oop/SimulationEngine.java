@@ -27,11 +27,13 @@ public class SimulationEngine implements IEngine{
 
     @Override
     public void run() {
-//        System.out.println(this.map);
+        System.out.println(this.map);
         for(int i = 0; i< moves.length;i++){
-//            System.out.println("Moving animal on "+ animals.get(i%animals.toArray().length).getLocation()+" "+moves[i]);
+            System.out.println("Moving animal on "+ animals.get(i%animals.toArray().length).getLocation()+" "+moves[i]);
             animals.get(i%animals.toArray().length).move(moves[i]);
-//            System.out.println(this.map);
+            System.out.println(this.map);
         }
     }
+
+
 }
