@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class RectangularMapTest {
     @Test
-    public void testSimple(){
+    public void testPlaceAndObjectAt(){
         RectangularMap map = new RectangularMap(5,5);
         Animal animal = new Animal(map);
         assertTrue(map.place(animal));

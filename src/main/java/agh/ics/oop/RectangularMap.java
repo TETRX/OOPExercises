@@ -27,16 +27,6 @@ public class RectangularMap extends AbstractWorldMap{
     }
 
     @Override
-    public boolean place(Animal animal) {
-        Vector2d animalLocation = animal.getLocation();
-        if(canMoveTo(animalLocation)){
-            animals.add(animal);
-            return true;
-        }
-        return false;
-    }
-
-    @Override
     protected void setUpPrint() {}
 
     @Override

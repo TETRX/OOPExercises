@@ -25,4 +25,16 @@ public class GrassFieldTest {
         assertFalse(map.canMoveTo(initialPosition1));
         assertTrue(map.canMoveTo(new Vector2d(2,2)));
     }
+
+    @Test
+    public void testGrass(){
+        RandomnessSource randomnessSource = new RandomnessSource() {
+            @Override
+            public int randInt(int l, int r) {
+                return 1;
+            }
+        };
+        GrassField map = new GrassField(1,randomnessSource);
+        assertNotNull(map.objectAt(new Vector2d(1, 1)));
+    }
 }

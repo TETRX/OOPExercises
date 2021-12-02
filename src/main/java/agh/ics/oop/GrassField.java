@@ -1,14 +1,12 @@
 package agh.ics.oop;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class GrassField extends AbstractWorldMap {
     private int n;
-    private List<IMapElement> objects;
+    private Map<Vector2d, IMapElement> nonAnimalObjects;
     private int lowest, highest, leftmost,rightmost;
 
     private RandomnessSource random;
@@ -24,11 +22,12 @@ public class GrassField extends AbstractWorldMap {
         highest = Integer.MIN_VALUE;
         rightmost = Integer.MIN_VALUE;
 
-        this.objects = new ArrayList<>();
+        this.nonAnimalObjects = new HashMap<>();
         for(int i = 0; i<n;i++){
             int x = random.randInt(lowerBound, upperBound);
             int y = random.randInt(lowerBound, upperBound);
-            objects.add(new Grass(new Vector2d(x,y)));
+            Vector2d grassLocation = new Vector2d(x,y);
+            nonAnimalObjects.put(grassLocation,new Grass(grassLocation));
         }
         modifyBoundaries();
     }
@@ -38,8 +37,7 @@ public class GrassField extends AbstractWorldMap {
     }
 
     private void modifyBoundaries(){
-        for (IMapElement mapElement: objects) {
-            Vector2d location = mapElement.getLocation();
+        for (Vector2d location: nonAnimalObjects.keySet()) {
             modifyBoundariesGivenXY(location.x,location.y);
         }
     }
@@ -49,14 +47,6 @@ public class GrassField extends AbstractWorldMap {
         rightmost = Math.max(x,rightmost);
         lowest = Math.min(y,lowest);
         highest = Math.max(y,highest);
-    }
-
-    public boolean place(Animal animal){
-        boolean parentResult = super.place(animal);
-        if(parentResult){
-            objects.add(animal);
-        }
-        return parentResult;
     }
 
     @Override
@@ -86,10 +76,11 @@ public class GrassField extends AbstractWorldMap {
 
     @Override
     public Object objectAt(Vector2d position) {
-        for (IMapElement mapElement: objects) {
-            if (mapElement.getLocation().equals(position)){
-                return mapElement;
-            }
+        if(animals.containsKey(position)){
+            return animals.get(position);
+        }
+        if (nonAnimalObjects.containsKey(position)){
+            return nonAnimalObjects.get(position);
         }
         return null;
     }
