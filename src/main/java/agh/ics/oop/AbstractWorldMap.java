@@ -26,7 +26,7 @@ public abstract class AbstractWorldMap implements IWorldMap {
             animals.put(animalLocation, animal);
             return true;
         }
-        return false;
+        throw new IllegalArgumentException("cannot add animal to " + animal.getLocation().toString());
     }
 
     @Override

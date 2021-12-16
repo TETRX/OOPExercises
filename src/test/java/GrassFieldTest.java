@@ -37,4 +37,13 @@ public class GrassFieldTest {
         GrassField map = new GrassField(1,randomnessSource);
         assertNotNull(map.objectAt(new Vector2d(1, 1)));
     }
+
+    @Test
+    public void testPlaceSamePlace(){
+        GrassField map = new GrassField(10);
+        Vector2d initialPosition = new Vector2d(1, 2);
+        Animal animal1 = new Animal(map,initialPosition), animal2 = new Animal(map, initialPosition);
+        assertTrue(map.place(animal1));
+        assertThrows(IllegalArgumentException.class, ()->{map.place(animal2);});
+    }
 }

@@ -7,7 +7,7 @@ import java.util.Map;
 public class GrassField extends AbstractWorldMap {
     private int n;
     private Map<Vector2d, IMapElement> nonAnimalObjects;
-    private int lowest, highest, leftmost,rightmost;
+    private Vector2d lowerLeftGrass, upperRightGrass;
 
     private RandomnessSource random;
 
@@ -17,10 +17,8 @@ public class GrassField extends AbstractWorldMap {
         int upperBound = (int) Math.sqrt(n*10);
         int lowerBound = 0;
 
-        lowest = Integer.MAX_VALUE;
-        leftmost = Integer.MAX_VALUE;
-        highest = Integer.MIN_VALUE;
-        rightmost = Integer.MIN_VALUE;
+        lowerLeftGrass = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
+        upperRightGrass = new Vector2d(Integer.MIN_VALUE, Integer.MIN_VALUE);
 
         this.nonAnimalObjects = new HashMap<>();
         for(int i = 0; i<n;i++){
@@ -28,26 +26,30 @@ public class GrassField extends AbstractWorldMap {
             int y = random.randInt(lowerBound, upperBound);
             Vector2d grassLocation = new Vector2d(x,y);
             nonAnimalObjects.put(grassLocation,new Grass(grassLocation));
+            modifyBoundaries(grassLocation);
         }
-        modifyBoundaries();
+        mapBoundary = new MapBoundary();
     }
 
     public GrassField(int n){
         this(n, new PseudorandomRandomnessSource());
     }
 
-    private void modifyBoundaries(){
-        for (Vector2d location: nonAnimalObjects.keySet()) {
-            modifyBoundariesGivenXY(location.x,location.y);
-        }
+    private void modifyBoundaries(Vector2d grass){
+        lowerLeftGrass = lowerLeftGrass.lowerLeft(grass);
+        upperRightGrass = upperRightGrass.upperRight(grass);
     }
 
-    private void modifyBoundariesGivenXY(int x, int y){
-        leftmost = Math.min(x,leftmost);
-        rightmost = Math.max(x,rightmost);
-        lowest = Math.min(y,lowest);
-        highest = Math.max(y,highest);
+    public boolean place(Animal animal){
+        boolean result = super.place(animal);
+        if(result) {
+            mapBoundary.addElement(animal);
+        }
+        return result;
     }
+
+
+    private final MapBoundary mapBoundary;
 
     @Override
     public boolean canMoveTo(Vector2d position) {
@@ -56,17 +58,16 @@ public class GrassField extends AbstractWorldMap {
 
     @Override
     protected void setUpPrint() {
-        modifyBoundaries();
     }
 
     @Override
     protected Vector2d getLowerLeft() {
-        return new Vector2d(leftmost,lowest);
+        return lowerLeftGrass.lowerLeft(mapBoundary.getLowerLeft());
     }
 
     @Override
     protected Vector2d getUpperRight() {
-        return new Vector2d(rightmost,highest);
+        return upperRightGrass.upperRight(mapBoundary.getUpperRight());
     }
 
     @Override

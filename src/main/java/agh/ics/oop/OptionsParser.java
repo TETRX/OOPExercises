@@ -19,7 +19,7 @@ public class OptionsParser {
             case "backward":
                 return MoveDirection.BACKWARD;
             default:
-                return null;
+                throw new IllegalArgumentException(arg + " is not legal move specification");
         }
     }
 
