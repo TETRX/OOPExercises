@@ -36,14 +36,11 @@ public abstract class AbstractWorldMap implements IWorldMap {
         animals.put(newPosition,movingAnimal);
     }
 
-    protected abstract void setUpPrint();
+    public abstract Vector2d getLowerLeft();
 
-    protected abstract Vector2d getLowerLeft();
-
-    protected abstract Vector2d getUpperRight();
+    public abstract Vector2d getUpperRight();
 
     public String toString(){
-        setUpPrint();
         return new MapVisualizer(this).draw(getLowerLeft(), getUpperRight());
     }
 

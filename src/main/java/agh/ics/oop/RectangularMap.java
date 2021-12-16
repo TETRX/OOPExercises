@@ -4,12 +4,12 @@ import java.util.*;
 
 public class RectangularMap extends AbstractWorldMap{
     @Override
-    protected Vector2d getUpperRight() {
+    public Vector2d getUpperRight() {
         return upperRight;
     }
 
     @Override
-    protected Vector2d getLowerLeft() {
+    public Vector2d getLowerLeft() {
         return lowerLeft;
     }
 
@@ -25,9 +25,6 @@ public class RectangularMap extends AbstractWorldMap{
     public boolean canMoveTo(Vector2d position) {
         return (!isOccupied(position)) & position.precedes(upperRight) & position.follows(lowerLeft);
     }
-
-    @Override
-    protected void setUpPrint() {}
 
     @Override
     public boolean isOccupied(Vector2d position) {
